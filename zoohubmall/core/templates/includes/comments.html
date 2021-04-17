@@ -1,0 +1,10 @@
+<div class="comments">
+	<hr>
+	{% if comments %}
+		{% for comment in comments %}
+				{% include 'includes/comment_media_object.html' %}
+		{% endfor %}
+	{% else %}
+		<p class="subheader">The product has no comments yet</p>
+	{% endif %}
+</div>

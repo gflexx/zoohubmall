@@ -1,0 +1,68 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container page">
+	<div class="store-jumbotron">
+        <div>
+            <img class="float-center store-image" src="{{ store.owner.image.url }}">
+        </div>
+    </div>
+    <h3 class="text-center">{{ store.name }}</h3>
+    <div class="grid-x align-center">
+    	<a class="button hollow success small" data-open="about-store"><i style="color: #ffbf00; font-size: 18px; font-weight: bold;" class="fi-crown"></i> About</a>
+   		<div class="reveal" id="about-store" data-reveal>
+			<ul class="tabs" data-tabs id="store-tabs">
+		    	<li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Store details</a></li>
+		        <li class="tabs-title">
+					<a data-tabs-target="panel2" href="#panel2">
+						<span class="reviews-count">{{ reviews.count }}</span> 
+						<span class="reviews-count-pluralize">Review{{ reviews|pluralize }}</span>
+					</a>
+		        </li>
+		    </ul>
+			<div class="tabs-content" data-tabs-content="store-tabs">
+		    	<div class="tabs-panel is-active" id="panel1">
+		        	<p>Total products: <span>{{ total }}</span></p>
+		            <p>Seller since: <span class="green-text">{{ store.created_at|date:'M d Y' }}</span>
+		            <p> About: <span class="subheader">{{ store.description }}</span></p>
+		        </div>
+		        <div class="tabs-panel" id="panel2">
+				    <form method="post" class="review-form">
+				    	<input type="hidden" name="store_id" value="{{ store.id }}">
+				    	<input type="hidden" name="next" value="{{ uri }}">
+						{{ form }}
+						{% if user.is_authenticated %}
+							<button type="submit" class="button review-button small" on_click="reviewAjax()">Post</button>
+						{% else %}
+							<p class="subheader">Please login to comment</p>
+							<br>
+						{% endif %}
+					</form>
+					{% include 'includes/reviews.html' %}
+		        </div>
+		   	</div>
+
+		    <button class="close-button" data-close aria-label="Close modal" type="button">
+		    	<span aria-hidden="true">&times;</span>
+		    </button>
+		</div>
+    </div>
+    <hr>
+    <div>
+    	{% if products %}
+            <div class="grid-x grid-margin-x small-up-2 medium-up-4 large-up-5" data-equalizer data-equalize-by-row="true">
+                {% for product in products %}
+                    {% include 'includes/product_card.html' with bag=bag %}
+                {% endfor %}
+            </div>
+
+            {% include 'includes/product_pagination.html' %}
+
+        {% else %}
+            <p class="text-center">Hmmm! Store hasn't uploaded a product yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}

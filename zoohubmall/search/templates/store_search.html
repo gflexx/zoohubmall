@@ -1,0 +1,25 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container page search-page">
+	{% if request.GET.q %}
+		<h4 class="text-center">{{ num_results }} Result{{ num_results|pluralize }} for "<span class="subheader">{{ request.GET.q }}</span>"</h4>
+		<hr>
+		{% if stores %}
+			{% for store in stores %}
+				{% include 'includes/store_media_object.html' %}
+			{% endfor %}
+		{% else %}
+			<h5 class="text-center">Woops! No store maches your Query.</h5>
+		{% endif %}
+	{% else %}
+		<br>
+		<br>
+		<h4 class="text-center"><i class="h2 green-text fi-puzzle"></i>  Next time search for something, we've got (<span class="subheader">{{ strs }}</span>) stores.</h4>
+		<br>
+		<hr>
+	{% endif %}
+</div>
+
+{% endblock content %} 

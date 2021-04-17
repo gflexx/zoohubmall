@@ -1,0 +1,18 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="grid-x align-center page">
+    <div class="cell large-5 medium-7 small-11">
+        <form method="post" class="form-card">
+            <h4 class="text-center">Write to Us  <i class="green-text h2 fi-comment-quotes"></i></h4>
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" class="button float-center" value="Submit">
+        </form>
+    </div>
+</div>
+
+
+{% endblock content %}

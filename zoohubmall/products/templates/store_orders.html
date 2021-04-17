@@ -1,0 +1,52 @@
+{% extends '_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+<div class="grid-x grid-margin-x page">
+    <div class="cell large-3 medium-4 hide-for-small-only">
+    	{% include 'includes/profile_sidebar.html' with active_link='dashboard' %}
+    </div>
+    <div class=" cell large-9 medium-8">
+    	<div class="dashboard-card">
+    	{% if not request.user.customer.is_seller %}
+    		<p class="h5 text-center">Hmmm! You have no business here <a href="{% url 'core:home' %}">go back to safety</a></p>
+    	{% else %}
+    		<h4 class="green-text">{{ store.name }}</h4>
+            <p class="subheader">Purchased products and their orders</p>
+  						<hr>
+
+            {% if purchased_products %}
+
+            	<table class="hover">
+    				<thead>
+    					<tr>
+    						<th class="bold">#</th>
+    						<th>Order ID</th>
+    						<th>Product</th>
+    						<th>Quantity</th>
+    						<th>Created</th>
+    					<tr>
+    				</thead>
+                  	<tbody>
+                  		{% for item in purchased_products %}
+		                  <tr>
+		                      <td>{{ forloop.counter }}</td>
+		                      <td><span class="green-text">{{ item.order_id }}</span></td>
+		                      <td><a target="_blank" href="{{ item.product.product.get_absolute_url }}">{{ item.product }}</a></td>
+		                      <td><span class="green-text">{{ item.quantity }}</span></td>
+		                      <td>{{ item.created_at|naturaltime }}</td>
+		                  </tr>
+                  		{% endfor %}
+                	</tbody>
+              	</table>
+
+              {% else %}
+                  <p>Looks like there aren't any orders yet</p>
+              {% endif %}
+    	 
+		{% endif %}
+    	</div>
+    </div>
+</div>
+{% endblock content %} 

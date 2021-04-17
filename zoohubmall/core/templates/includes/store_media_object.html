@@ -1,0 +1,10 @@
+<div class="search-page media-object store-card">
+    <div class="media-object-section">
+        <a href="{{ store.get_absolute_url }}"><img class="search-page media-image" src="{{ store.owner.image.url }}"></a>
+    </div>
+    <div class="media-object-section">
+        <a href="{{ store.get_absolute_url }}"><h6 class="product-name">{{ store.name }}</h6></a>
+        <h6 class="subheader">{{ store.description }}</h6>
+    </div>
+
+</div>

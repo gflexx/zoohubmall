@@ -1,0 +1,98 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container page">
+	{% if not bag_items %}
+		<div class="callout primary">
+			<p>Your Shopping Bag is currently empty, <a href="{% url 'core:home' %}">shop more</a>.</p>
+		</div>
+	{% else %}
+		<div class="grid-container">
+			<h4 class="text-center">Bag Items</h4>
+			<hr>
+			<br>
+			<div class="bag-body">
+				<div class="bag-products">
+					<div class="show-for-large-only">
+						{% for item in bag_items %}
+							<div class="grid-x grid-padding-x align-center bag-item bag-item-card" id="{{ item.product.slug }}">
+								<div class="cell large-1 bag-item-text">
+									<span class="h6 bold text-center">{{ forloop.counter }}.</span>
+								</div>
+								<div class="cell large-2">
+									<a href="{{ item.product.get_absolute_url }}">
+										<img class="bag-image float-center" alt="{{ item.product.name }}"  src="{{ item.product.image.url }}">
+									</a>
+								</div>
+								<div class="cell large-2 bag-item-text">
+			  						<p>{{ item.product.name }}</p>
+			  					</div>
+			  					<div class="cell large-3 quantity-update">
+			  						{% include 'includes/update_item_quantity.html' with item=item %}
+			  					</div>
+			  					<div class="cell large-2 bag-item-text">
+			  							<span class="">
+			  								<span class="green-text">Kshs. </span>
+			  								<span class="green-text item-total">{{ item.total }}</span>
+			  							</span>
+			  					</div>
+			  					<div class="cell large-1">
+			  						{% include 'includes/remove_from_bag.html' with product=item.product %}
+			  					</div>
+							</div>
+						{% endfor %}
+					</div>
+					<div class="hide-for-large-only">
+						{% for item in bag_items %}
+							<div class="grid-x grid-padding-x bag-object bag-item callout" id="{{ item.product.slug }}-md-sm">
+									<div class="counter">
+										{{ forloop.counter }}.
+									</div>
+									<div class="cell medium-2 small-5">
+										<a href="{{ item.product.get_absolute_url }}">
+											<img class="bag-image" alt="{{ item.product.name }}" src="{{ item.product.image.url }}">
+										</a>
+									</div>
+									<div class="cell medium-4 small-6">
+										<h6>{{ item.product.name }}</h6>
+										<p>
+			  								<span class="green-text">Kshs. </span>
+			  								<span class="green-text item-total">{{ item.total }}</span>
+			  							</p>
+									</div>
+									<div class="cell medium-4  small-9 quantity-update">
+										{% include 'includes/update_item_quantity.html' with item=item %}
+									</div>
+									<div class="cell medium-1 small-2 delete-item">
+										{% include 'includes/remove_from_bag.html' with product=item.product cls=""  %}
+									</div>
+								</div>
+						{% endfor %}
+					</div>
+				</div>				
+			</div>
+			<br>
+				<table>
+					<thead>
+						<tr>
+							<th>Bag Items</th>
+							<th>Total Price</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="num-products-count">{{ request.session.num_products }}</td>
+							<td class="green-text">Kshs. <span class="bag-total">{{ total }}</span></td>
+						</tr>
+					</tbody>
+				</table>
+				<a href="{% url 'checkout:checkout_view' %}" class="button small float-right">Proceed to Checkout</a>
+				<br>
+				<hr>
+				<br>
+		</div>
+	{% endif %}
+</div>
+
+{% endblock content %} 

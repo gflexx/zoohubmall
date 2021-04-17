@@ -1,0 +1,68 @@
+{% load static %}
+<div class="off-canvas position-left" id="offCanvas" data-off-canvas data-transition="overlap">
+	<span>
+
+		<h5 style="color: #398740; font-weight: bolder;"> <img class="offcanvas-image" src="{% static 'img/fav.jpg' %}" alt="site logo">
+			zooHubMall
+		</h5>
+		<button class="close-button float-right" aria-label="Close menu" type="button" data-close>
+			<span aria-hidden="true">&times;</span>
+	  </button>
+	</span>
+
+	<form class="search-for" method="get" action="{% url 'search:search_view' %}">
+        <div class="input-group">
+            <span class="input-group-label"><i class="fi-magnifying-glass green-text"></i></span>
+            <input class="input-group-field" name="q" type="search" placeholder="Search for Products">
+        </div>
+    </form>
+
+    <ul class="vertical menu">
+		<li><a href="{% url 'core:home' %}"><i class="fi-home nav-icon green-text"></i>Home</a></li>
+		<li><a href="{% url 'products:categories' %}"><i class="fi-thumbnails nav-icon green-text"></i>Categories</a></li>
+		<li><a href="{% url 'products:stores' %}"><i class="fi-foot nav-icon green-text"></i>Stores</a></li>
+		<li>
+			<a href="{% url 'bag:bag_view' %}">
+				<span>
+					<i class="fi-shopping-bag nav-icon green-text"></i>Shopping Bag
+					<span style="color: black;" class="num-products-count float-right">
+						{% if 'num_products' in request.session %}
+							{{ request.session.num_products }}
+						{% endif %}
+					</span>
+				</span>
+			</a>
+		</li>
+		{% if not user.is_authenticated %}
+			<li><a href="{% url 'core:help' %}"><i class="fi-info nav-icon green-text"></i>Help</a></li>
+		{% endif %}
+
+		{% if user.is_authenticated %}
+			<li><a href="{% url 'users:profile' %}"><i class="fi-torso nav-icon green-text"></i>Account</a></li>
+            {% if user.is_seller %}
+                <a href="{% url 'users:dashboard' %}"><i class="fi-widget nav-icon green-text"></i>Dashboard</a>
+            {% endif %}
+			<li><a href="{% url 'users:purchase_history' %}"><i class="fi-price-tag nav-icon green-text"></i> Product history</a></li>
+			<li><a href="{% url 'users:orders_view' %}"><i class="fi-shopping-cart nav-icon green-text"></i>Orders</a></li>
+            <li><a href="{% url 'core:help' %}"><i class="fi-info nav-icon green-text"></i>Help</a></li>
+            <li><a href="{% url 'account_logout' %}"><i class="fi-power nav-icon green-text" style="color: #dd1e2f;"></i>Logout</a></li>
+						<li><hr></li>
+        {% else %}
+						<li><hr></li>
+            <li><a href="{% url 'account_login' %}">Login</a></li>
+            <li><a href="{% url 'account_signup' %}">Register</a></li>
+        {% endif %}
+
+		<li><a href="{% url 'core:about' %}">About Us</a></li>
+		<li><a href="{% url 'core:contact' %}">Contact Us</a></li>
+
+    </ul>
+		{% if user.is_authenticated %}
+			<hr>
+			<br>
+			<h6 class="canvas-email text-center">{{ user.email }}</h6>
+			<br>
+		{% endif %}
+		
+		<br>
+</div>

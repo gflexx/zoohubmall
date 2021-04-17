@@ -1,0 +1,57 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatibe" content="ie=edge">
+    <meta name="description" content="{{ site_description }}">
+    <meta name="keywords" content="{{ meta_keywords }}">
+
+    <title>{{ title }} - {{ site_name }}</title>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/foundation.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/vendor/foundation-icons.css' %}">
+    <link rel="stylesheet" type="application/font-sfnt" href="{% static 'css/vendor/foundation-icons.ttf' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/app.o.css' %}">
+    <link rel="shortcut icon" type="image" href="{% static 'img/fav.jpg' %}">
+</head>
+<body>
+
+<section id="top"></section>
+{% include 'includes/title_bar.html' %}
+
+{% include 'includes/off_canvas.html' %}
+
+{% include 'includes/navbar.html' %}
+
+<div class="grid-container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="callout success_callout">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<div class="grid-container off-canvas-content" data-off-canvas-content>
+	{% block content %}
+
+	{% endblock content %}
+</div>
+
+{% include 'includes/footer.html' %}
+
+	
+    <script src="{% static 'js/vendor/jquery.js' %}"></script>
+    <script src="{% static 'js/vendor/foundation.min.js' %}"></script>
+    <script src="{% static 'js/vendor/what-input.js' %}"></script>
+    <script src="{% static 'js/ajax_csrf.js' %}"></script>
+    <script src="{% static 'js/app.o.js' %}"></script>
+    {% block scripts %}
+	{% endblock scripts %}
+
+</body>
+</html>

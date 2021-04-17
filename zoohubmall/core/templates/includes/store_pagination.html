@@ -1,0 +1,20 @@
+<nav aria-label="Pagination">
+    <ul class="pagination text-center">
+        {% if stores.has_previous %}
+            <li class="pagination-previous"><a href="?page={{ stores.previous_page_number }}">Previous <span class="show-for-sr">page</span></a></li>
+        {% endif %}
+
+        {% for p in stores.paginator.page_range %}
+            {% if stores.number == p %}
+                <li class="current"><a href="?page={{ p }}"><span class="show-for-sr">You're on page</span> {{ p }}</a></li>
+            {% else %}
+                <li><a href="?page={{ p }}" aria-label="Page {{ p }}">{{ p }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if stores.has_next %}
+            <li><a aria-label="Last Page" href="?page={{ stores.paginator.num_pages }}">Last</a></li>
+            <li class="pagination-next"><a aria-label="Next page" href="?page={{ stores.next_page_number }}">Next <span class="show-for-sr">page</span></a></li>
+        {% endif %}
+    </ul>
+</nav>

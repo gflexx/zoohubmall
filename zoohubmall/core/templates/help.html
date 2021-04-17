@@ -1,0 +1,60 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container help-page page">
+    <h2 class="text-center">Help & Support <i style="margin-left: 9px; font-size: 36px;" class="fi-first-aid green-text"></i></h2>
+    <br>
+
+    <ul class="accordion" data-accordion>
+        <li class="accordion-item" data-accordion-item>
+            <a href="#" class="accordion-title text-center">Site Navigation</a>
+            <div class="accordion-content" data-tab-content>
+                <p><span class="subheader">BAG</span> represents your cart, add items to your Bag then proceed to checkout.</p>
+                <p>The <span class="subheader">STORES</span> page shows all stores that are open in the mall.</p>
+                <p>In <span class="subheader">CATEGORIES</span> you can view our vast variety of product categories.</p>
+                <p>In the <span class="subheader">Accounts</span> page, you can check your details, update your password and profile.</p>
+                <p>The <span class="subheader">Dashboard</span> is where sellers can manage their store and products.</p>
+                <p>View your order history at the <span class="subheader">Orders</span> page.</p>
+                <!-- <p>Save products to your <span class="subheader"> Wishlist</span> if you wish to save and buy them for later.</p> -->
+            </div>
+        </li>
+
+        <li class="accordion-item" data-accordion-item>
+            <a href="#" class="accordion-title text-center">How to Manage Your Store</a>
+            <div class="accordion-content" data-tab-content>
+                <p>Update and delete your products at the <span class="subheader">All Products</span> page.</p>
+                <p>Check all your customer orders in the <span class="subheader">Orders</span> page.</p>
+                <p>The <span class="subheader">Stock</span> page shows your products' quantities, quantities in red show low stock.</p>
+                <p>The <span class="subheader">Metrics</span> page shows graphs representing statistics about your store performance.</p>
+            </div>
+        </li>
+
+        <li class="accordion-item" data-accordion-item>
+            <a href="#" class="accordion-title text-center">Product Delivery</a>
+            <div class="accordion-content" data-tab-content>
+                <p>You can only collect products at your chosen specified area.</p>
+                <p>Delivery within Nairobi and its whereabouts is done within 12 hours of ordering.</p>
+                <p>Delivery outside Nairobi is done within 36 hours of ordering.</p>
+                <p>Upon delivery, the customer is given a form to fill for delivery confirmation.</p>
+                <p>Delivery cost will depend on the nature of the product and distant to your location from our HQ but with a minimum fee of Kshs. 50.</p>
+            </div>
+        </li>
+
+        <li class="accordion-item" data-accordion-item>
+            <a href="#" class="accordion-title text-center">Return Policy</a>
+            <div class="accordion-content" data-tab-content>
+                <p>Returned products can only be accepted within 72 hours of order.</p>
+                <p>The buyer is responsible for the return cost.</p>
+                <p>Returned products can only to be returned to any of our specified outlet offices.</p>
+                <p>Perishable products cannot be returned.</p>
+            </div>
+        </li>
+    </ul>
+
+
+    <p class="subheader made-with"><i class="fi-wrench made-with-icon"></i> Designed and developed by mmg</p>
+<!-- glennenri24@gmail.com -->
+</div>
+
+{% endblock content %}

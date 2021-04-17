@@ -1,0 +1,9 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container page">
+</div>
+
+{% endblock content %}
+

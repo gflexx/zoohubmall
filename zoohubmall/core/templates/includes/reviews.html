@@ -1,0 +1,9 @@
+<div class="reviews">
+	{% if reviews %}
+		{% for comment in reviews %}
+			{% include 'includes/comment_media_object.html' %}
+		{% endfor %}
+	{% else %}
+		<p class="subheader">Store has no reviews yet.</p>
+	{% endif %}
+</div>

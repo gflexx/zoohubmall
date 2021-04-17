@@ -1,0 +1,15 @@
+<div class="cell" data-equalizer-watch>
+	<div class="card product-card">
+		<a href="{{ product.get_absolute_url }}"><img class="product-card-image float-center" src="{{ product.image.url }}" alt="product.name"></a>
+		<div class="card-section">
+			<a class="product-name" href="{{ product.get_absolute_url }}"><h6 class="text-center">{{ product.name }}</h6></a>
+            <a href="{% url 'products:store_view' product.store.slug %}"><h6 class="store-name text-center" style="font-size: 12px; margin-top: 6.3px;">From: {{ product.store }}</h6></a>
+            <h6 class="text-center green-text">Kshs. {{ product.price }}</h6>
+            {% if product.quantity > 0 %}
+              {% include 'includes/add_to_bag.html' with product=product cls='float-center, expanded' bag=bag %}
+            {% else %}
+              <p class="lead float-center button clear">OUT OF STOCK</p>
+            {% endif %}
+		</div>
+	</div>
+</div> 

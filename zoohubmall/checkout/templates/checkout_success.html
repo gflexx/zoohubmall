@@ -1,0 +1,17 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container page">
+	<h2 class="text-center green-text">zooHubmall</h2>
+    <img class="checkout-success-img float-center" src="{% static 'img/fav.jpg' %}" alt="">
+    <h3 class="text-center">Thank you for shopping with us.</h3>
+    <div class="callout">
+        <p>For any enquiries contact us <a href="mailto:info@zoohubmall.com?subject=enquiries">here.</a></p>
+        <br>
+    </div>
+    <br>
+    <h5><a href="{% url 'core:home' %}">GO SHOP SOME MORE</a></h5>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,16 @@
+<div class="media-object product-media">
+    <div class="media-object-section">
+        <a href="{{ product.get_absolute_url }}"><img class="media-image" src="{{ product.image.url }}"></a>
+    </div>
+    <div class="media-object-section">
+        <a href="{{ product.get_absolute_url }}"><h6 class="product-name">{{ product.name }}</h6></a>
+        <h6 class="green-text">KSHS {{ product.price }}</h6>
+        <p class="subheader">{{ product.description|truncatechars:45 }}</p>
+            {% if product.quantity > 0 %}
+                {% include 'includes/add_to_bag.html' with product=product %}
+            {% else %}
+                <a class="button secondary add-to-bag disabled small"><i class="fi-shopping-bag"></i> OUT OF STOCK</a>
+            {% endif %}
+    </div>
+
+</div>

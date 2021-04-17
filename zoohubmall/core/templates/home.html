@@ -1,0 +1,77 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="grid-container page">
+	{% include 'includes/jumbotron.html' %}
+	<div class="recent">
+        <h4>New Arrivals</h4>
+        <div class="grid-x grid-margin-x small-up-2 medium-up-4 large-up-5" data-equalizer data-equalize-by-row="true">
+            {% if recent %}
+                {% for product in recent %}
+                    {% include 'includes/product_card.html' %}
+                {% endfor %}
+            {% else %}
+                <h5>No products to display</h5>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="trending">
+        <h4>Trending Products</h4>
+        <div class="grid-x grid-margin-x small-up-2 medium-up-4 large-up-5" data-equalizer data-equalize-by-row="true">
+            {% if trending %}
+                {% for product in trending %}
+                    {% include 'includes/product_card.html' %}
+                {% endfor %}
+            {% else %}
+                <h5>No products to display</h5>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="home-stores">
+    	<h4>Check these stores out</h4>
+    	<div class="grid-x grid-margin-x small-up-2 medium-up-4 large-up-6" data-equalizer data-equalize-by-row="true">
+    		{% if stores %}
+    			{% for store in stores %}
+    				{% include 'includes/store_card.html' %}
+    			{% endfor %}
+    		{% else %}
+    			<h6>No stores to check out</h6>
+    		{% endif %}
+    	</div>
+    </div>
+	
+	<br>
+    <div class="home-categories">
+        <h4>Popular categories</h4>
+        <div class="grid-x grid-margin-x small-up-2 medium-up-4 large-up-6" data-equalizer data-equalize-by-row="true">
+        {% if popular_categories %}
+            {% for category in popular_categories %}
+
+            <div class="cell" data-equalizer-watch>
+                <div class="card category-card">
+                	<div class="thumbnail clear-thumbnail">
+                    	<a href="{{ category.get_absolute_url }}"><img class="category-image float-center" src="{{ category.image.url }}" alt="{{ category.description|truncatechars:45 }}"></a>
+                    </div>
+                    <div class="card-section">
+                        <a href="{{ category.get_absolute_url }}"><p class="green-text text-center">{{ category.name }}</p></a>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        {% else %}
+            <h6>Wooops! No categories to show.</h6>
+        {% endif %}
+        </div>
+    </div>
+    
+    {% include 'includes/secured.html' %}
+    
+</div>
+
+{% endblock content %}

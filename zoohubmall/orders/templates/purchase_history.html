@@ -1,0 +1,47 @@
+{% extends '_base.html' %}
+{% load humanize %}
+{% load static %}
+{% block content %}
+
+<div class="grid-x grid-margin-x page">
+    <div class="cell large-3 medium-4 hide-for-small-only">
+    	{% include 'includes/profile_sidebar.html' with active_link='purchase_history' %}
+    </div>
+    <div class=" cell large-9 medium-8">
+    	<div class="dashboard-card">
+    		{% if previous_purchase %}
+            	<h4 class="green-text">Product purchase history</h4>
+                <hr>
+
+                <br>
+                <table class="hover">
+                	<thead>
+		                <tr>
+		                    <th>Product</th>
+		                    <th class="hide-for-small-only">Order ID</th>
+		                    <th>Quantity</th>
+		                    <th>Price</th>
+		                    <th>Bought</th>
+		                <tr>
+                    </thead>
+                    <tbody>
+                    	{% for item in previous_purchase %}
+		                    <tr>
+		                      <td><a target="_blank" href="{{ item.product.product.get_absolute_url }}">{{ item.product }}</a></td>
+		                      <td class="hide-for-small-only">{{ item.order_id }}</td>
+		                      <td class="green-text">{{ item.quantity }}</td>
+		                      <td>{{ item.price }}</td>
+		                      <td class="green-text">{{ item.created_at|naturaltime }}</td>
+		                    </tr>
+                     	{% endfor %}
+                    <tbody>
+                  </table>
+              {% else %}
+                  <h4 class="green-text">Recent Orders</h4>
+                  <hr>
+                  <p class="subheader">Looks like you haven't purchased any product yet. <a href="{% url 'core:home' %}">Shop more.</a></p>
+              {% endif %}
+    	</div>
+    </div>
+</div>
+{% endblock content %} 

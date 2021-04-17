@@ -1,0 +1,158 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container page">
+	<div class="grid-x grid-margin-x product-page">
+		<div class="cell large-3 medium-4 hide-for-small-only">
+			<div class="categories-card side-bar">
+				<h6>Best Selling</h6>
+				<hr>
+				{% if bestselling %}
+					<div class="bestselling">
+						{% for product in bestselling %}
+							{% include 'includes/small_media_object.html' %}
+						{% endfor %}
+					</div>
+				{% else %}
+					<p class="subheader">No product to display</p>
+				{% endif %}
+				
+				<br>
+				
+				<h6>Featured products</h6>
+				<hr>
+				{% if featured %}
+					<div class="featured">
+						{% for product in featured %}
+							{% include 'includes/small_media_object.html' %}
+						{% endfor %}
+					</div>
+				{% else %}
+					<p class="subheader">No product to display</p>
+				{% endif %}
+				
+				<br>
+				
+				<h6>Recommended Products</h6>
+                <hr>
+                {% if recommended %}
+                    <div class="recommended">
+                        {% for product in recommended %}
+                            {% include 'includes/small_media_object.html' %}
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="subheader">No products yet</p>
+                {% endif %}
+                
+                {% if previous_views %}
+                <br>
+                
+                <h6>Viewed Products</h6>
+                <hr>
+                <div class="previous">
+                	{% for product in previous_views %}
+						<div class="media-object">
+							<div class="media-object-section">
+								<a href="{{ product.content_object.get_absolute_url }}"><img src="{{ product.content_object.image.url }}" class="tiny-image"></a>
+							</div>
+							<div class="media-object-section">
+								<a href="{{ product.content_object.get_absolute_url }}"><h6>{{ product.content_object.name }}</h6></a>
+								<p class="green-text">Kshs. {{ product.content_object.price }}</p>
+							</div>
+						</div>
+                	{% endfor %}
+                </div>
+                {% endif %}
+				
+			</div>
+		</div>
+		<div class="cell large-9 medium-8">
+			<div class="grid-x grid-margin-x">
+				<div class="cell large-7 medium-7">
+					<div class="thumbnail product-page-image">
+						<img src="{{ product.image.url }}" alt="{{ product.name }}">
+					</div>
+				</div>
+				<div class="cell large-5 medium-5">
+					<h3>{{ product.name }}</h3>
+					<h6>{{ product.description }}</h6>
+		
+					{% if product.quantity > 0 %}
+                        <h6>Stock: <span class="green-text lead">{{ product.quantity }}</span></h6>
+                    {% else %}
+                        <h6 class="lead">OUT OF STOCK</h6>
+                    {% endif %}
+                    <p>By: <a href="{% url 'products:store_view' product.store.slug %}"><span>{{ product.store }}</span></a></p>
+                    <P>Price: <span class="green-text">Kshs. {{ product.price }}</span></p>
+                    {% if product.quantity > 0 %}
+                    	<form class="add-to-bag-form" method="POST" action="{% url 'bag:add_to_bag' %}">
+                    		{% csrf_token %}
+              				<input type="hidden" name="product_slug" value="{{ product.slug }}">
+
+              				{% if product in bag.products.all %}
+                  				<button type="submit" class="button add-to-bag expanded secondary"><i class="fi-shopping-bag"></i> Add to Bag</button>
+              				{% else %}
+                  				<button type="submit" class="button add-to-bag expanded"><i class="fi-shopping-bag"></i> Add to Bag</button>
+              				{% endif %}
+                    	</form>
+                    {% else %}
+						<a class="button secondary disabled expanded small">OUT OF STOCK</a>
+					{% endif %}
+				</div>
+			</div>
+			<hr>
+			<div class="grid-x align-center">
+				<div class="medium-11 small-12 comments-container">
+					<ul class="tabs" data-tabs id="comments-ratings">
+						<li class="tabs-title is-active">
+							<a href="#panel1" aria-selected="true">
+								<span class="comment-count">{{ comments.count }}</span> 
+								<span class="comment-count-pluralize">Comment{{ comments|pluralize }}</span>
+							</a>
+						</li>
+						<li class="tabs-title">
+							<a href="#panel2" data-tabs-target="panel2">
+								<span class="rating-count">{{ product.get_num_rating }}</span>
+								<span clas="rating-count-pluralize">Rating{{ product.get_num_rating|pluralize }}</span>
+							</a>
+						</li>
+					</ul>
+					<div class="tabs-content" data-tabs-content="comments-ratings">
+						<div class="tabs-panel is-active" id="panel1">
+							<form method="post" class="comment-form" action="{% url 'products:product_comment' %}">
+								<input type="hidden" name="product_slug" value="{{ product.slug }}">
+								{{ form }}
+								{% if user.is_authenticated %}
+									<button type="submit" class="button small comment-button" on_click="commentAjax()">Post</button>
+								{% else %}
+									<p class="subheader">Please login to comment</p>
+									<br>
+								{% endif %}
+							</form>
+							{% include 'includes/comments.html' %}
+						</div>
+						<div class="tabs-panel" id="panel2">
+							<div class="ratings">
+								<p class="text-center">Rate the product from here</p>
+								<hr>
+								{% if user.is_authenticated %}
+									<form method="post" class="rating-form" action="">
+										<input type="hidden" name="product_slug" value="{{ product.slug }}">
+									</form>
+								{% else %}
+									<p class="subheader">Please login to rate</p>
+								{% endif %}
+							</div>
+						</div>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}
+
+ 

@@ -1,0 +1,169 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-x grid-margin-x page">
+    <div class="cell large-3 medium-4 hide-for-small-only">
+    	{% include 'includes/profile_sidebar.html' with active_link='dashboard' %}
+    </div>
+    <div class=" cell large-9 medium-8">
+    	{% if not request.user.customer.is_seller %}
+    		<p class="h5 text-center">Hmmm! You have no business here <a href="{% url 'core:home' %}">go back to safety</a></p>
+    	{% else %}
+			<div class="dashboard-card metric-top">
+				<h4>Store and Product metrics for <span class="green-text">{{ store.name }}</span></h4>
+				<input class="endpoint" type="hidden" value="{% url 'users:chart_api' %}">
+				<p>
+					<i class="green-text fi-pricetag-multiple h5"></i> Total products: 
+					<span class="lead small">{{ total_products }}</span>
+				</p>
+				<p>
+					<i class="green-text fi-torsos h5"></i> Store views: 
+					<span class="lead small">{{ store.views }}</span>
+				</p>
+				<p>
+					<i class="green-text fi-eye h4"></i> Product views<span class="subheader">(all)</span>: 
+					<span class="lead small">{{ product_views }}</span>
+				</p>
+				<p>
+					<i class="green-text fi-dollar-bill h5"></i> Sales: 
+					<span class="lead small">{{ purchased_products.count }}</span>
+				</p>
+			 </div>   
+		    {% if not products %}
+		    	<p class="lead text-center">You have no product metrics to view. <a href="{% url 'users:add_product' %}">Upload</a> a  product.</p>
+		    {% else %}
+		    	<div class="metric">
+		    		<h5>Sales Summary</h5>
+		    		<p>Total:</p>
+                    <span class="green-text bold">Kshs. {{ total_sales }}</span>
+		    		<p>Current month:</p>
+                    <span class="green-text bold">Kshs. {{ total_month_sales }}</span>
+                    
+		    	</div>
+		    	
+		    	<div class="metric">
+                	<h5>
+                    	Product sales 
+                    	<span class="green-text">{{ month_sales.count }}</span> <span class="subheader">(this month)</span>
+                    </h5>
+                    <ul class="accordion" data-accordion>
+                    	<li class="accordion-item" data-accordion-item>
+                    		<a href="#" class="accordion-title">Product Purchases</a>
+                    		<div class="accordion-content" data-tab-content>
+		                		{% if month_sales %}
+						           	<div class="monthly-sales-products">
+						            	<div class="grid-x grid-margin-x align-center">
+						      	     		<div class="cell large-2 medium-2 small-3">
+						            			<p class="h6">Image</p>
+						      	     		</div>
+						      	     		<div class="cell large-2 medium-2 small-3">
+						            			<h6>Name</h6>
+						      	     		</div>
+						      	     		<div class="cell large-2 medium-3 hide-for-small-only">
+						      	      			<h6>Order ID</h6>
+						      	     		</div>
+						      	     		<div class="cell large-2 medium-2 small-2">
+						      	     			<div>Quantity</div>
+						      	     		</div>
+						      		      	<div class="cell large-2 medium-3 hide-for-small-only">
+						            			<h6>Created On</h6>
+						      		      	</div>
+						      	      	</div>
+						            	{% for product_sale in month_sales %}
+											<div style="margin-bottom: 2.7px;" class="grid-x grid-margin-x align-center metric-month-sales">
+						            			<div class="cell large-2 medium-2 small-3">
+						           					<a href="{{ product_sale.product.product.get_absolute_url }}">
+						      	     					<img class="bag-image float-center" src="{{ product_sale.product.product.image.url }}" alt="{{ product_sale.image.name }}">
+						           					</a>
+						            			</div> 
+						            			<div class="cell large-2 medium-2 small-3">
+						           					<p>{{ product_sale.product.product.name }}</p>
+						            			</div>
+						            			<div class="cell large-2 medium-3 hide-for-small-only">
+						           					<h6 class="green-text">{{ product_sale.order_id }}</h6>
+						            			</div>
+						            			<div class="cell large-2 medium-2 small-2">
+						            				<h6 class="text-center">{{ product_sale.quantity }}</h6>
+						            			</div>
+						           				<div class="cell large-2 medium-3 hide-for-small-only">
+						           					<h6>{{ product_sale.created_at|date:"M d Y" }}</h6>
+						           				</div>                       			
+						            		</div>
+						            	{% endfor %}
+						            </div>
+				       			{% else %}
+				               		<p>Hmmm... Looks like you have no sales yet.</p>
+				       	        {% endif %}
+                    		</div>
+                    	</li>
+                    </ul>
+                    
+                </div>
+		    	
+		    	<div class="metric">
+		    		<h5>Product Quantity</h5>
+		    	</div>
+		    	
+		    	<div class="metric">
+		    		<h5>Product Views</h5>
+		    		<canvas id="product-views" height="400" width="540"></canvas>
+		    	</div>
+		    {% endif %}  	    
+		{% endif %}
+    	
+    </div>
+</div>
+{% endblock content %}  
+
+{% block scripts %}
+	<script src="{% static 'js/Chart.bundle.min.js' %}"></script>
+	<script>
+		$(document).ready(function(){
+			var endPoint = $('.endpoint');
+			var chartMethod = 'GET'
+			
+			var productNames = [];
+			var productViews = [];
+			
+			$.ajax({
+				method: chartMethod,
+				url: endPoint.val(),
+				success: function(data){
+					productNames = data.productNames;
+					productViews = data.productViews;
+					var ctx = document.getElementById('product-views').getContext('2d');
+					var productViewsChart = new Chart(ctx, { 
+						type: 'bar',
+						data: {
+							label: productNames,
+							datasets: [{
+								label: 'Product Views',
+								data: productViews,
+								borderColor: 'rgba(75, 192, 192, 1)'
+							}]
+						}, options: {}
+					});
+				}, 
+				error: function(error_data){
+					showSnackBar("Something went wrong");
+				}
+			})
+			
+			function setCharts(){
+				var productViews = document.getElementById('product-views');
+				var productViewsChart = new Chart(productViews, { 
+					type: 'bar',
+					data: {
+						label: ['x', 'y', 'z'],
+						datasets: [{
+							label: 'Product Views',
+							data: [10, 15, 24],
+							borderColor: 'rgba(75, 192, 192, 1)'
+						}]
+					}, options: {}
+				});
+			}
+		})
+	</script>
+{% endblock scripts %}

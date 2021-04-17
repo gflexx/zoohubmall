@@ -1,0 +1,16 @@
+<div class="media-object comment-media-object">
+    <div class="media-object-section">
+        <img src="{{ comment.posted_by.image.url }}" class="comment-image">
+    </div>
+    <div class="media-object-section">
+        <h6>
+        	<span class="green-text">
+        		{{ comment.posted_by.full_name }}
+        		{% if not comment.posted_by.full_name %}
+        			{{ comment.posted_by.get_name_from_mail }}
+        		{% endif %}
+        	</span>
+        </h6>
+        <p>{{ comment.text }}</p>
+    </div>
+</div>

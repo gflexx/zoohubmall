@@ -1,0 +1,6 @@
+<form class="remove-from-bag-form" method="POST" action="{% url 'bag:remove_from_bag' %}">
+	{% csrf_token %}
+	<input type="hidden" name="product_slug" value="{{ product.slug }}">
+	
+	<button type="submit" class="button clear {{ cls }}"><i class="fi-trash trash-bag "></i></button>
+</form>

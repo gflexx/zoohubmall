@@ -1,0 +1,11 @@
+<form class="custom-forms" method="post" action="{% url 'users:guest_register' %}">
+	<h4 class="text-center">Enter Email  <i class="green-text fi-at-sign"></i></h4>
+	{% csrf_token %}
+			
+	{% if next %}
+		<input type="hidden" name="next" value="{{ next }}">
+	{% endif%}
+			
+	{{ form }}
+	<input type="submit" class="button float-center small" value="Submit">
+</form>

@@ -1,0 +1,41 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-x grid-margin-x page">
+    <div class="cell large-3 medium-4 hide-for-small-only">
+    	{% include 'includes/profile_sidebar.html' with active_link='dashboard' %}
+    </div>
+    <div class=" cell large-9 medium-8">
+    	<div class="dashboard-card">
+    	{% if not request.user.customer.is_seller %}
+    		<p class="h5 text-center">Hmmm! You have no business here <a href="{% url 'core:home' %}">go back to safety</a></p>
+    	{% else %}
+    		<h4 class="green-text">{{ store.name }}</h4>
+    	 	<form method="post" enctype="multipart/form-data">
+            	{% csrf_token %}
+                {{ form }}
+                <br>
+                <br>
+                <p><input class="button success small" value="Update Product" type="submit"></p>
+            </form>
+            <hr>
+            <div class="callout">
+                 <a class="alert button" data-open="product-delete-modal"><i class="fi-trash"></i> Delete Product</a>
+            </div>
+
+            <div class="reveal" id="product-delete-modal" data-reveal>
+                <p class="h3 text-center">Product Deletion <i style="font-size: 54px;color: #dd1e2f;" class="fi-alert"></i></p>
+                <hr>
+                <h6 class="text-center">Are sure you want to delete "<span class="subheader">{{ product.name }}</span>"? This cannot be reversed.</h6>
+                <br>
+                <a class="button alert float-center hollow" href="{% url 'users:delete_product' product.slug %}">DELETE</a>
+                <button class="close-button" data-close aria-label="Close modal" type="button">
+                	<span aria-hidden="true">&times;</span>
+            	</button>
+            </div>
+		{% endif %}
+    	</div>
+    </div>
+</div>
+{% endblock content %}  

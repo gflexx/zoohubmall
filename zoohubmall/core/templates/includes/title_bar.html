@@ -1,0 +1,12 @@
+{% load static %}
+<div class="show-for-small-only">
+	<div class="title-bar">
+		<div class="title-bar-left">
+			<img class="title-bar-image" src="{% static 'img/fav.jpg' %}" alt="site logo">
+			<a href="{% url 'core:home' %}"><span class="title-bar-title">zooHubMall</span></a>
+	  	</div>
+	  	<div class="title-bar-right">
+	  		<button class="menu-icon dark" type="button" data-open="offCanvas"></button>
+	  	</div>
+	</div>
+</div>

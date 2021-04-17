@@ -1,0 +1,11 @@
+<form class="custom-forms" method="post" action="{% url 'users:custom_login' %}">
+	<h4 class="text-center">Login  <i class="fi-key green-text"></i></h4>
+	{% csrf_token %}
+			
+	{% if next %}
+		<input type="hidden" name="next" value="{{ next }}">
+	{% endif%}
+			
+	{{ form }}
+	<input type="submit" class="button float-center small" value="Submit">
+</form>

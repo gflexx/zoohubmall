@@ -1,0 +1,48 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-x grid-margin-x page">
+    <div class="cell large-3 medium-4 hide-for-small-only">
+    	{% include 'includes/profile_sidebar.html' with active_link='dashboard' %}
+    </div>
+    <div class=" cell large-9 medium-8">
+    	<div class="dashboard-card">
+    	{% if not request.user.customer.is_seller %}
+    		<p class="h5 text-center">Hmmm! You have no business here <a href="{% url 'core:home' %}">go back to safety</a></p>
+    	{% else %}
+    		<h4 class="green-text">{{ store.name }}</h4>
+            <p>Total products: <span class="">{{ num_products }}</span></p>
+            <p class="subheader">Quantities in red represent low stock, less than 5</p>
+            <hr>
+            <div>
+				{% if products %}
+					<div class="grid-x grid-margin-x">
+                    	<div class="cell small-4 lead">Product Name</div>
+                        <div class="cell small-4 lead">Product Quantity</div>
+                        <div class="cell small-4 lead">Price(KSHS)</div>
+                    </div>
+                    {% for product in products %}
+                    	{% if product.quantity < 5 %}
+                        	<div class="grid-x grid-margin-x">
+                            	<div class="cell small-4"><a href="{% url 'users:update_product' product.slug %}">{{ product.name }}</a></div>
+                                <div class="cell small-4"><span style="color: red;">{{ product.quantity }}</span></div>
+                                <div class="cell small-4">{{ product.price }}</div>
+                            </div>
+                        {% else %}
+                        	<div class="grid-x grid-margin-x">
+                            	<div class="cell small-4"><a href="{% url 'users:update_product' product.slug %}">{{ product.name }}</a></div>
+                                <div class="cell small-4"><span class="green-text">{{ product.quantity }}</span></div>
+                                <div class="cell small-4">{{ product.price }}</div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+				{% else %}
+		          	<p>Looks like you haven't uploaded any product. <a href="{% url 'users:add_product' %}">Add product.</a></p>
+		        {% endif %}
+		    </div>
+    	{% endif %}
+    	</div>
+    </div>
+</div>
+{% endblock content %} 

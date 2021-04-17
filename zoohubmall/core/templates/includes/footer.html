@@ -1,0 +1,82 @@
+{% load static %}
+ <div id="snackbar">
+ 	<p class="snacktext"></p>
+ </div>
+ 
+ <div style="margin-top: 36px;" class="footer-strip grid-x" data-animation-easing="string" data-offset="18" data-animation-duration="750"  data-smooth-scroll>
+    <a style="color: white;" class="float-center" href="#top">GO TO TOP <span><i style="color: #7cad3e;" class="got-to-top fi-arrow-up green-text"></i></span></a>
+</div>
+
+<footer class="grid-x grid-container-full align-center" data-equalizer>
+    <div class="cell large-3 medium-4" data-equalizer-watch>
+        <div class="footer-header">
+            <h7>CONTACT INFO</h7>
+        </div>
+        <ul class="vertical menu contacts">
+            <div class="media-object">
+                <div class="media-object-section">
+                    <span class="footer-icon contact-icon"><i class="fi-telephone"></i></span>
+                </div>
+                <div class="media-object-section">
+                    <p class="footer-contact-title">PHONE</p>
+                    <p class="contact-detail">+254-769433637</p>
+                </div>
+            </div>
+
+            <div class="media-object">
+                <div class="media-object-section">
+                    <span class="footer-icon contact-icon"><i class="fi-mail"></i></span>
+                </div>
+                <div class="media-object-section">
+                    <p class="footer-contact-title">EMAIL</p>
+                    <p>
+                      <a href="mailto:zoohubmall@gmail.com?subject=feedback" class="contact-detail" style="margin-left:0;">
+                        zoohubmall@gmail.com
+                      </a>
+                    </p>
+                </div>
+            </div>
+        </ul>
+    </div>
+
+    <div class="cell large-4 medium-3 footer-links" data-equalizer-watch>
+        <div class="footer-header">
+            <h7>USEFUL LINKS</h7>
+        </div>
+        <ul class="vertical menu footer-links">
+            <li><a href="{% url 'core:about' %}">About Us</a></li>
+            <li><a href="{% url 'core:help' %}">Help</a></li>
+            <li><a href="{% url 'core:contact' %}">Contact Us</a></li>
+            <li><a href="{% url 'account_signup' %}">Register</a></li>
+            <li><a href="{% url 'core:privacy' %}">Privacy Policy</a></li>
+            <li><a href="{% url 'core:terms' %}">Terms of Use</a></li>
+        </ul>
+
+    </div>
+
+    <div class="cell large-3 medium-4 footer-links" data-equalizer-watch>
+        <div class="footer-header">
+            <h7>GET SOCIAL!</h7>
+        </div>
+        <ul class="menu">
+            <li><a target="_blank" href="https://www.facebook.com/zoohub.mall.7"><i class="footer-icon fi-social-facebook footer-social"></i></a></li>
+            <li><a target="_blank" href="https://www.instagram.com/zoo_mall_hub"><i class="footer-icon fi-social-instagram footer-social"></i></a></li>
+            <li><a target="_blank" href="https://twitter.com/zoohubmall"><i class="footer-icon fi-social-twitter footer-social"></i></a></li>
+            <li><a target="_blank" href="https://ke.linkedin.com/in/zoohubmall-family-917558194"><i class="footer-icon fi-social-linkedin footer-social"></i></a></li>
+        </ul>
+        <div class="grid-x">
+            <p class="payment-info">We accept:</p>
+        </div>
+
+        <div class="grid-x">
+            <div class="small-3 payment-container">
+                <img class="payment-icons float-center" src="{% static 'img/mpesa-logo.jpg' %}">
+            </div>
+        </div>
+
+    </div>
+</footer>
+<div class="bottom">
+  <p class="bottom-text text-center">zooHubMall group     © 2019</p>
+</div>
+

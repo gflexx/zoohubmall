@@ -1,0 +1,40 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-x grid-margin-x page">
+    <div class="cell large-3 medium-4 hide-for-small-only">
+    	{% include 'includes/profile_sidebar.html' with active_link='dashboard' %}
+    </div>
+    <div class=" cell large-9 medium-8">
+    	<div class="dashboard-card">
+    	{% if not request.user.customer.is_seller %}
+    		<p class="h5 text-center">Hmmm! You have no business here <a href="{% url 'core:home' %}">go back to safety</a></p>
+    	{% else %}
+    		<h4>Update for <span class="green-text">{{ store.name }}</span></h4>
+    		<div class="product-form">
+    			<form method="post">
+    				{% csrf_token %}
+    				{{ form }}
+    				<input class="button small success" type="submit" value="Update Store Details">
+    			</form>
+    			<hr>
+    			<div class="callout">
+                	<a class="alert button" data-open="store-delete-modal"><i class="fi-trash"></i> Delete Store</a>
+                </div>
+                <div class="reveal" id="store-delete-modal" data-reveal>
+                	<p class="h3 text-center">Store Deletion  <i style="font-size: 54px;color: #dd1e2f;" class="fi-alert"></i></p>
+                    <hr>
+                    <h6 class="text-center">Are sure you want to delete "<span class="subheader">{{ store.name }}</span>"? This will also delete all products associated with it.</h6>
+                    <br>
+                    <a class="button alert float-center hollow" href="{% url 'users:delete_store' store.slug %}"><i class="fi-trash"></i>  DELETE</a>
+                    <button class="close-button" data-close aria-label="Close modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+    		</div>
+		{% endif %}
+    	</div>
+    </div>
+</div>
+{% endblock content %} 

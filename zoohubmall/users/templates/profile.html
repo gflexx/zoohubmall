@@ -1,0 +1,78 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container page">
+	{% if not user.customer.profile_creation_complete %}
+		<div class="grid-x align-center">
+			<div class="cell form-card large-5 medium-7 small-10">
+				<h3 class="text-center green-text">One more step</h3>
+				<h6 class="text-center subheader">Select to be a buyer or seller with us</h6>
+				<form method="post" action="{% url 'users:customer_profile_creation' %}">
+					<input type="hidden" name="next" value="{{ uri }}">
+					{% csrf_token %}
+					{{ customer_selection }}
+					<input class="button float-center success" type="submit">
+				</form>
+			</div>
+		</div>
+	{% else %}
+		<div class="grid-x grid-margin-x">
+			<div class="cell large-3 medium-4 hide-for-small-only">
+				{% include 'includes/profile_sidebar.html'  with active_link='profile' %}
+			</div>
+			
+			<div class="cell large-9 medium-8">
+				<div class="dashboard-card">
+					<div class="show-for-small-only">
+						<div class="small-profile">
+							<img class="float-center" src="{{ user.image.url }}">
+						</div>
+					</div>
+					
+					<div class="user-details">
+						<p class="bold"><span><i class="fi-background-color h5"></i></span> <span class="green-text">Your details:</span></p>
+						{% if user.full_name %}
+							<p>Name: {{ user.full_name }}</p>
+						{% endif %}
+		                <p>Email: <span class="subheader">{{ user.email }}</span></p>
+		                {% if user.phone_number %}
+		                    <p>Number: {{ user.phone_number }}</p>
+		                {% endif %}
+		                {% if not user.full_name or not user.phone_number %}
+							<div class="badge alert">
+								Please update your details
+							</div>
+						{% endif %}
+		                {% if user.customer.is_seller %}
+		                    <div class="badge success">Seller account</div>
+		                {% else %}
+		                	<div class="badge success">Buyer account</div>
+		                {% endif %}
+		                {% if user.is_admin %}
+		                    <div class="badge success">You are admin</div>
+		                {% endif %}
+					</div>
+					<hr>
+					<p><span><i class="fi-wrench h5"></i></span> <span class="green-text">Account management</span></p>
+					<a class="button small hollow primary" data-open="user-update-modal"><i class="fi-loop"></i> Update User Details</a>
+		            <a href="{% url 'account_change_password' %}" class="button small hollow secondary"><i class="fi-key"></i> Change Password</a>
+		            <a class="button small hollow alert"><i class="fi-page-edit"></i> More Settings</a>
+		            <div class="reveal" id="user-update-modal" data-reveal>
+		                <form method="post" enctype="multipart/form-data" action="{% url 'users:update_user' %}">
+		                    {% csrf_token %}
+		                    {{ user_update }}
+		                    <input name="action" type="submit" value="Update Details" class="button float-center">
+		                </form>
+		                <button class="close-button" data-close aria-label="Close modal" type="button">
+		                    <span aria-hidden="true">&times;</span>
+		                </button>
+		            </div>
+					
+				</div>
+			</div>
+		</div>
+    {% endif %}
+</div>
+
+{% endblock content %}

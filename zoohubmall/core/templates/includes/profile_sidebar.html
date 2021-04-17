@@ -1,0 +1,19 @@
+<div class="profile-sidebar-card">
+	<img class="profile-image float-center" src="{{ user.image.url }}">
+	<p class="text-center green-text">{{ user.email }}</p>
+	
+	<ul class="menu vertical profile-sidebar">
+		<li><a class="{% if active_link == 'profile' %}active-bar{% endif %}" href="{% url 'users:profile' %}">Account <i class="fi-torso float-right"></i></a></li>
+		{% if user.customer.is_seller %}
+            <li>
+            	<a class="{% if active_link == 'dashboard' %}active-bar{% endif %}" href="{% url 'users:dashboard' %}">
+            		Dashboard <i class="fi-widget float-right"></i>
+            	</a>
+            </li>
+        {% endif %}
+		<li><a class="{% if active_link == 'purchase_history' %}active-bar{% endif %}" href="{% url 'users:purchase_history' %}">Purchase history <i class="fi-price-tag float-right"></i></a></li>
+        <li><a class="{% if active_link == 'orders' %}active-bar{% endif %}" href="{% url 'users:orders_view' %}">Orders <i class="fi-shopping-cart float-right"></i></a></li>
+        <li><a href="{% url 'account_logout' %}">Sign Out <i class="fi-power float-right" style="color: #dd1e2f;"></i></a></li>		
+	</ul>
+	
+</div> 

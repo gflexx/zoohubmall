@@ -1,0 +1,9 @@
+<div class="media-object">
+    <div class="media-object-section">
+        <a href="{{ product.get_absolute_url }}"><img src="{{ product.image.url }}" class="tiny-image"></a>
+    </div>
+    <div class="media-object-section">
+        <a href="{{ product.get_absolute_url }}"><h6>{{ product.name }}</h6></a>
+        <p class="green-text">Kshs. {{ product.price }}</p>
+    </div>
+</div>

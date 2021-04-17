@@ -1,0 +1,63 @@
+ {% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container page">
+	<div class="grid-x grid-margin-x">
+		<div class="cell large-3 medium-4 hide-for-small-only">
+			<div class="dashboard-card">
+                <h6>Search for store</h6>
+                <hr>
+                <form method="get" action="{% url 'search:store_search' %}">
+                    <div class="input-group">
+                        <input class="input-group-field" name="q" type="search" placeholder="Search for Store">
+                        <button type="submit" class="button success"><i class="fi-magnifying-glass"></i></button>
+                    </div>
+                </form>
+            </div>
+            
+			<div class="categories-card side-bar">
+				<h6>Categories<h6>
+				<hr>
+				{% if not categories %}
+					<p>Meeh! No categories to show.</p>
+				{% else %}
+					<ul class="categories-menu menu vertical">
+						{% for category in categories %}
+							<li><a class="green-text" href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+						{% endfor %}							
+					</ul>
+				{% endif %}
+			</div>
+			
+			<br>
+			<div class="dashboard-card">
+                <h6>Trending Stores</h6>
+                <hr>
+                {% if trending %}
+                    <div class="trending-stores">
+                        {% for store in trending %}
+							{% include 'includes/store_small_media_object.html' %}
+						{% endfor %}
+                    </div>
+                {% else %}
+                    <p>Meeh! No stores yet</p>
+                {% endif %}
+            </div>
+		</div>
+		<div class="cell large-9 medium-8">
+			{% if stores %}
+                <div class="grid-x grid-margin-x small-up-2 medium-up-3 large-up-4" data-equalizer data-equalize-by-row="True">
+                    {% for store in stores %}
+                        {% include 'includes/store_card.html' %}
+                    {% endfor %}
+                </div>
+                {% include 'includes/store_pagination.html' %}
+            {% else %}
+                <p class="text-center">No stores opened yet</p>
+            {% endif %}
+		</div>
+	</div>
+</div>
+
+{% endblock content %} 

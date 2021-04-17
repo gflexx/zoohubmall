@@ -1,0 +1,84 @@
+{% load static %}
+
+{% url 'core:home' as home_url %}
+{% url 'users:profile' as profile_url %}
+{% url 'products:categories' as categories_url %}
+{% url 'products:stores' as stores_url %}
+{% url 'bag:bag_view' as bag_url %}
+
+<div class="grid-x align-center hide-for-small-only search-bar">
+    <div class="cell large-7 medium-7">
+        <form class="search-form" method="get" action="{% url 'search:search_view' %}">
+            <div class="input-group">
+                <span class="input-group-label"><i class="fi-magnifying-glass green-text"></i></span>
+                <input class="input-group-field" name="q" type="search" placeholder="Search for Products by name or description">
+                <div class="input-group-button">
+                    <input name="submit" required class="button" type="submit" value="Search">
+                </div>
+            </div>
+        </form>
+    </div>
+</div> 
+<div class="grid-container hide-for-small-only">
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <ul class="menu">
+                <li>
+                  <a style="color: #398740; font-weight: bold;" class="site-title" href="{{ home_url }}">
+                    <img class="nav-image" src="{% static 'img/fav.jpg' %}" alt="site-logo">
+                    zooHubMall
+                  </a>
+                </li>
+                <li class="">
+                	<ul class="dropdown menu" data-dropdown-menu>
+                		<li class="menu">
+                			<a href="{{ categories_url }}"><i class="fi-thumbnails nav-icon green-text"></i>CATEGORIES</a>
+                			{% if categories %}
+                				<ul class="menu nav-menu">
+                					{% for category in categories %}
+                						<li class="category_menu_item"><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+                					{% endfor %}
+                				</ul>
+                			{% else %}
+                				<ul class="menu">
+                					<li><p>No content to show yet</p></li>
+                				</ul>
+                			{% endif %}
+                		</li>
+                	</ul>
+                </li>
+                <li class=""><a href="{{ stores_url }}"><i class="fi-foot nav-icon green-text"></i>STORES</a></li>
+                <li class="">
+                    <a href="{{ bag_url }}">
+                        <span style="color: black;" class="num-products-count">{{ request.session.num_products }}</span>
+                        <i class="fi-shopping-bag nav-icon green-text"></i>BAG
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="top-bar-right">
+            <ul class="dropdown menu" data-dropdown-menu>
+                <li class="">
+                    <a href="{{ profile_url }}">ACCOUNT</a>
+                    <ul class="menu nav-menu">
+                        {% if user.is_authenticated %}
+                            {% if user.customer.is_seller %}
+                                <a href="{% url 'users:dashboard' %}"><i class="fi-widget nav-icon green-text"></i>Dashboard</a>
+                            {% endif %}
+                            <li><a href="{% url 'core:help' %}"><i class="fi-info nav-icon green-text"></i>Help</a></li>
+                            <li><a href="{% url 'account_logout' %}"><i class="fi-power nav-icon green-text" style="color: #dd1e2f;"></i>Sign Out</a></li>
+                        {% else %}
+                            <li><a href="{% url 'account_login' %}">Sign In</a></li>
+                            <li><a href="{% url 'account_signup' %}">Register</a></li>
+                            <li><a href="{% url 'core:help' %}"><i class="fi-info nav-icon green-text"></i>Help</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li>
+                	<button style="margin-left: 1.26em;" class="menu-icon dark" type="button" data-open="offCanvas"></button>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>

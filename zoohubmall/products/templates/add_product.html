@@ -1,0 +1,27 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-x grid-margin-x page">
+	<div class="cell large-3 medium-4 hide-for-small-only">
+		{% include 'includes/profile_sidebar.html' with active_link='dashboard' %}
+	</div>
+	<div class=" cell large-9 medium-8">
+		<div class="dashboard-card">
+			{% if not request.user.customer.is_seller %}
+				<p class="h5 text-center">Hmmm! You have no business here <a href="{% url 'core:home' %}">go back to safety</a></p>
+			{% else %}
+				<h4>Add product to <span class="green-text">{{ store.name }}</span></h4>
+				<div class="product-form">
+					<form method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+                        {{ form }}
+                        <br>
+                        <input class="button success small" type="submit" value="Submit">
+					</form>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock content %} 

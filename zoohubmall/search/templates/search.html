@@ -1,0 +1,26 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container page search-page">
+	{% if request.GET.q %}
+		<h4 class="text-center">{{ num_results }} Result{{ num_results|pluralize }} for "<span class="subheader">{{ search_input }}</span>"</h4>
+		<hr>
+		{% if products %}
+			<div class="grid-container">
+				{% for product in products %}
+					{% include 'includes/product_media_object.html' %}
+				{% endfor %}
+			</div>
+		{% else %}
+			<h5 class="text-center">Mehh! No product matches your Query.</h5>
+		{% endif %}
+	{% else %}
+		<br>
+		<h4 class="text-center"><i class="fi-puzzle green-text h2"></i>  Next time search for something, we've got (<span class="subheader">{{ total }}</span>) products.</h4>
+		<br>
+		<hr>
+	{% endif %}
+</div>
+
+{% endblock content %} 

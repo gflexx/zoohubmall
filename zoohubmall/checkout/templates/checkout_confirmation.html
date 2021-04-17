@@ -1,0 +1,70 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container page">
+	<div class="grid-x grid-margin-x align-center">
+		{% if not customer_profile %}
+			<div class="cell small-12">
+				<div class="callout primary">
+					<p>Huh?! <a href="{% url 'core:home' %}">shop more</a>.</p>
+				</div>
+			</div>
+
+		{% else %}
+			{% if order %}
+				<div class="cell small-11 medium-7 large-6">
+					<h3 class="text-center green-text">Checkout</h3>
+					<br>
+          			<img class="checkout-img float-center" src="{% static 'img/fav.jpg' %}">
+          			<br>
+					<div class="callout">
+						<p>Customer email: <span class="lead">{{ customer_profile.email }}</span></p>
+		  				<ul class="menu horizontal">Ordered item{{ num_products|pluralize }}:
+		  					{% for item in bag_items %}
+		  						<li>{{ item.product.name }}<span class="subheader">({{ item.quantity }})</span></li>
+				        		{% if not forloop.last %} , {% endif %}
+		  					{% endfor %}
+		  				</ul>
+				  		{% if order.delivery_address.city %}
+				      		<p>Destination: {{ order.delivery_address.city }}</p>
+				  		{% endif %}
+						<p>Delivery total: {{ order.delivery_total }}</p>
+						<p>Order total(Kshs.): <span class="lead">{{ order.total }}</span></p>
+						<p>Order ID: <span class="lead">{{ order.order_id }}</span></p>
+					</div>
+			
+					<li class="button small success" data-open="lipa-na-modal">PAY WITH MPESA</li>
+
+				  <div class="reveal small" id="lipa-na-modal" data-reveal>
+				      {% url 'checkout:mpesa_handler' as action_url %}
+				      <form method="post" action="{{ action_url }}" data-abide novalidate>
+				        <img class="mpesa-payment-image float-center" src="{% static 'img/mpesa-logo.jpg' %}" alt="">
+				        <h5 class="text-center">Lipa na MPESA Online</h5>
+				        <p class="subheader text-center">Enter your mpesa registered phone number then check your handset for an instant payment confirmation from Safaricom MPESA.</p>
+				        <h3 class="lead text-center">Please enter your phone number.</h3>
+				        <input type="hidden" name="next" value="{{ uri }}">
+				          {% csrf_token %}
+				       <input class="input"  name="mpesa_phonenumber" type="tel" placeholder="(+254/07)12345678" required>
+				          <button type="submit" name="button" class="button float-center">PAY NOW</button>
+				      </form>
+				      <button class="close-button" data-close aria-label="Close modal" type="button">
+				          <span aria-hidden="true">&times;</span>
+				      </button>
+				  </div>
+					
+				</div>
+
+			{% else %}
+				<div class="callout primary">
+					<p>Huh?! your order is empty, <a href="{% url 'core:home' %}">shop more</a>.</p>
+				</div>
+
+			{% endif %}
+
+		{% endif %}
+		
+	</div>
+</div>
+
+{% endblock content %}

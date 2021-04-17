@@ -1,0 +1,55 @@
+{% extends '_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+
+<div class="grid-x grid-margin-x page">
+    <div class="cell large-3 medium-4 hide-for-small-only">
+    	{% include 'includes/profile_sidebar.html' with active_link='orders' %}
+    </div>
+    <div class=" cell large-9 medium-8">
+    	<div class="dashboard-card">
+    		{% if request.user.is_authenticated %}
+				<div class="show-for-small-only">
+					<div class="grid-x">
+							{# include 'includes/breadcrumbs.html' #}
+					</div>
+				</div>
+
+				{% if previous_orders %}
+					<h4 class="green-text">Recent Orders</h4>
+					<hr>
+
+					<br>
+					<table class="hover">
+						<thead>
+							<tr>
+								<th class="bold">#</th>
+								<th>Order ID</th>
+								<th>Total(Kshs.)</th>
+								<th>Created</th>
+							<tr>
+						</thead>
+						<tbody>
+							{% for order in previous_orders %}
+								<tr>
+									<th>{{ forloop.counter }}</th>
+									<td>{{ order.order_id }}</td>
+									<td class="green-text">{{ order.total }}</td>
+									<td>{{ order.created_at|naturaltime }}</td>
+								</tr>
+							{% endfor %}
+						<tbody>
+					</table>
+				{% else %}
+					<h4 class="green-text">Recent Orders</h4>
+					<hr>
+					<p class="subheader">Hmm, looks like you have not made any orders yet.</p>
+				{% endif %}
+        	{% else %}
+            	<p>Hmmm! You shouldn't be here.</p>
+        	{% endif %}
+    	</div>
+    </div>
+</div>
+{% endblock content %} 

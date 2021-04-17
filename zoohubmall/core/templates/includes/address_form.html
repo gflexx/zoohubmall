@@ -1,0 +1,18 @@
+<div class="address-page-forms">
+	<div class="">
+		<form class="delivery-form callout" method="post" action="{{ action_url }}">
+			{% csrf_token %}
+
+			{% if next %}
+				<input type="hidden" name="next" value="{{ next }}">
+			{% endif%}
+
+			{% if address_type %}
+				<input type="hidden" name="address_type" value="{{ address_type }}">
+			{% endif%}
+
+			{{ form }}
+			<input type="submit" class="button float-center small" value="Submit">
+		</form>
+	</div>
+</div>

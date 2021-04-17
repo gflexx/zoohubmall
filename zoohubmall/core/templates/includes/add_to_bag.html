@@ -1,0 +1,10 @@
+<form class="add-to-bag-form hide-for-small-only" method="POST" action="{% url 'bag:add_to_bag' %}">
+	{% csrf_token %}
+	<input type="hidden" name="product_slug" value="{{ product.slug }}">
+
+	{% if product in bag.products.all %}
+			<button type="submit" class="button add-to-bag {{ cls }} secondary"><i class="fi-shopping-bag"></i> Add to Bag</button>
+	{% else %}
+			<button type="submit" class="button add-to-bag {{ cls }}"><i class="fi-shopping-bag"></i> Add to Bag</button>
+	{% endif %}
+</form>

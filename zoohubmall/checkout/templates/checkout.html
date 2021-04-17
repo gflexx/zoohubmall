@@ -1,0 +1,137 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="grid-container page">
+	<br>
+	{% if not customer_profile %}
+		<h3 class="text-center">Login or Enter Email to continue as Guest</h3>
+		<br>
+		<div class="grid-container">
+			<div class="progress">
+				<span class="progress-meter" style="width: 25%;"></span>
+			</div>
+		</div>
+		<br>
+		<div class="callout primary">
+			<div class="grid-x grid-margin-x align-center">
+				<div class="cell medium-5 large-4">
+					{% include 'includes/custom_login.html' with next=uri form=login_form %}
+				</div>
+				
+				<div class="cell medium-5 large-4">
+					{% include 'includes/guest_email.html' with next=uri form=guest_form %}
+				</div>
+			</div>
+		</div>
+	{% else %}
+		{% if not order.delivery %}
+			<h3 class="green-text text-center">Should the item{{ num_products|pluralize }} be delivered?</h3>
+			<br>
+			<div class="grid-container">
+				<div class="progress">
+					<span class="progress-meter" style="width: 50%;"></span>
+				</div>
+			</div>
+			<br>
+        	<div class="grid-x align-center">
+				<div class="cell small-7 medium-5 large-4">
+					<form method="post" action="{% url 'checkout:checkout_delivery' %}">
+						{% csrf_token %}
+						<input type="hidden" name="next" value="{{ uri }}">
+								{{ delivery }}
+						<input type="submit" class="button float-center small" value="Submit">
+					</form>
+				</div>
+			</div>
+		{% else %}
+			{% if not order.is_complete %}
+				{% if order.delivery == '2' %}
+					<h3 class="green-text text-center">Delivery address</h3>
+					<br>
+					<div class="grid-container">
+						<div class="progress">
+							<span class="progress-meter" style="width: 75%;"></span>
+						</div>
+					</div>
+					<br>
+					{% url 'checkout:checkout_address_create' as checkout_address_create %}
+					<div class="grid-x grid-margin-x align-center">
+						<div class="cell medium-5 large-5">
+							{% include 'includes/address_form.html' with next=uri form=address_form address_type='delivery' action_url=checkout_address_create %}
+						</div>
+						
+						{% if address_owner.exists %}
+							<div class="cell medium-5 large-5">
+								{% include 'includes/previous_address_form.html' with address_owner=address_owner next=uri address_type='delivery' %}
+							</div>
+						{% endif %}
+					</div>
+				{% endif %}
+			{% else %}
+				<div class="grid-x align-center">
+					<div class="cell medium-7 large-8">
+						<h3 class="text-center green-text">Order Summary</h3>
+						<br>
+						<div class="grid-container">
+							<div class="progress">
+								<span class="progress-meter" style="width: 90%;"></span>
+							</div>
+						</div>
+						<br>
+						<table class="hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Product Name</th>
+									<th>Quantity</th>
+									<th>Price (Kshs.)</th>
+								<tr>
+							</thead>
+							<tbody>
+								{% for item in bag_items %}
+									<tr>
+										<th>{{ forloop.counter }}</th>
+										<td><a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a></td>
+										<td>{{ item.quantity }}</td>
+										<td class="green-text">{{ item.total }}</td>
+									</tr>
+								{% endfor %}
+							<tbody>
+						</table>
+						<br>
+						{% if order.delivery_address.city %}
+							<p><span style="font-weight: bold;">Destination:</span> {{ order.delivery_address.city }}</p>
+						{% endif %}
+						<span style="font-weight: bold;">Delivery total: </span><span class="green-text">Kshs. {{ order.delivery_total }} </span>
+						<hr>
+
+						<table>
+							<thead>
+								<tr>
+									<th>Order Items</th>
+									<th>Total Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>{{ num_products }}</td>
+									<td class="green-text">Kshs. {{ order.total }}</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<a href="{% url 'checkout:checkout_confirmation' %}" class="button float-right success small">Finish Checkout</a>
+						<br>
+						<hr>
+						
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
+	
+	{% endif %}
+
+</div>
+
+{% endblock content %} 
