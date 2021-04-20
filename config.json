@@ -1,9 +1,9 @@
 {
   "SECRET_KEY": "_ceciinfa=jc+&-3@jhfrfbl5it-ge7-uqhxn2d4!o3ol9aqda",
-  "EMAIL_HOST_USER": "zoohubmall@gmail.com",
-  "EMAIL_HOST_PASSWORD": "zoohubmall.com",
-  "db_user": "lenny",
-  "db_password": "esq12345",
+  "EMAIL_HOST_USER": "",
+  "EMAIL_HOST_PASSWORD": "",
+  "db_user": "",
+  "db_password": "",
   "business_short_code": "",
   "lipa_na_mpesa_passkey" : "",
   "consumer_key": "",
